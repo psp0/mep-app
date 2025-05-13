@@ -38,7 +38,7 @@ public class SecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeRequests()
-                .antMatchers("/api/users/register", "/api/users/login", "/api/users/token/refresh","/api/users").permitAll()            
+                .antMatchers("/api/users/register", "/api/users/login", "/api/users/token/refresh", "/api/users", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()            
                 .anyRequest().authenticated()
             .and()
             .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
