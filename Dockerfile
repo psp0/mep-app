@@ -8,6 +8,7 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 RUN apt-get update && apt-get install -y netcat-openbsd
 COPY --from=builder /app/build/libs/*.jar app.jar
+EXPOSE 8443
 COPY wait-for-it.sh .
 RUN chmod +x ./wait-for-it.sh
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["/app/wait-for-it.sh", "db", "3306", "java", "-jar", "/app/app.jar"]

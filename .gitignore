@@ -75,3 +75,10 @@ log.*
 
 # Distribution folder
 dist/
+
+# SSL Keystore and private keys - these should not be committed
+keystore.p12
+server.key
+server.crt
+springboot.p12
+
