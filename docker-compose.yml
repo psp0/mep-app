@@ -43,6 +43,7 @@ services:
     volumes:
       - ./nginx/nginx.conf.template:/etc/nginx/nginx.conf.template
       - ./nginx/ssl:/etc/nginx/ssl
+      - ./nginx/logs:/var/log/nginx
     environment:
       - DOMAIN_NAME=${DOMAIN_NAME}
     command: /bin/bash -c "envsubst '\$$DOMAIN_NAME' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
