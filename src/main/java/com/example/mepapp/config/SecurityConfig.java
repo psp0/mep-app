@@ -41,7 +41,8 @@ public class SecurityConfig {
                 .antMatchers("/api/users/register", "/api/users/login", "/api/users/token/refresh", "/api/users", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()            
                 .anyRequest().authenticated()
             .and()
-            .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+            .cors();
         return http.build();
     }
 }
