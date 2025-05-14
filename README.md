@@ -44,7 +44,7 @@ MEP(Metaverse Edu Platform)는 가상환경에서 교육 경험을 제공하는 
 
    - 포트 개방:
      ```bash
-     sudo ufw allow 80,443/tcp
+     sudo ufw allow 80,8443/tcp
      ```
 
 3. **애플리케이션 실행**

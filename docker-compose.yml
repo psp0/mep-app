@@ -13,6 +13,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - DOMAIN_NAME=${DOMAIN_NAME}
   db:
     image: mysql:8.0.42
     ports:
@@ -39,11 +40,10 @@ services:
     image: nginx:latest
     ports:
       - "80:80"
-      - "443:443"
+      - "8443:8443"
     volumes:
       - ./nginx/nginx.conf.template:/etc/nginx/nginx.conf.template
       - ./nginx/ssl:/etc/nginx/ssl
-      - ./nginx/logs:/var/log/nginx
     environment:
       - DOMAIN_NAME=${DOMAIN_NAME}
     command: /bin/bash -c "envsubst '\$$DOMAIN_NAME' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
