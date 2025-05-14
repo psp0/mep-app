@@ -50,6 +50,13 @@ buildNumber.properties
 *.iml
 *.iws
 
+### SSL & Nginx ###
+# SSL certificates and keys
+nginx/ssl/
+
+# Generated nginx config
+nginx/nginx.conf
+
 # Eclipse project files
 .classpath
 .project

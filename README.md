@@ -17,16 +17,23 @@ MEP(Metaverse Edu Platform)는 가상환경에서 교육 경험을 제공하는 
     - Database 접속 정보
     - MySQL root 비밀번호
     - JWT secret key
+    - 도메인 이름
 
-2. **도메인 및 SSL 설정**
-    - 도메인 설정:
+2. **SSL 설정**
+    
+    - SSL 인증서 설정:
       ```bash
-      # docker-compose.yml 수정
-      - YOUR_EMAIL=your@email.com
-      - YOUR_DOMAIN=your-domain.com
-
-      # nginx/nginx.conf 수정
-      server_name your-domain.com;
+      # nginx/ssl 디렉토리 생성
+      mkdir -p nginx/ssl
+      
+      # SSL 인증서 파일 복사
+      cp 발급받은_인증서.crt nginx/ssl/certificate.crt
+      cp 발급받은_개인키.key nginx/ssl/private.key
+      cp 발급받은_중간인증서.crt nginx/ssl/ca_bundle.crt
+      
+      # SSL 인증서 파일 권한 설정
+      chmod 600 nginx/ssl/private.key
+      chmod 644 nginx/ssl/certificate.crt nginx/ssl/ca_bundle.crt
       ```
     - 포트 개방:
       ```bash
@@ -37,28 +44,7 @@ MEP(Metaverse Edu Platform)는 가상환경에서 교육 경험을 제공하는 
     ```bash
     # 컨테이너 실행
     docker-compose up --build -d
-
-    # SSL 인증서 발급
-    docker-compose run --rm certbot certonly --webroot \
-      -w /var/www/certbot \
-      --email YOUR_EMAIL \
-      -d YOUR_DOMAIN \
-      --agree-tos
-    ```
-
-4. **SSL 인증서 자동 갱신 설정**
-    ```bash
-    # 갱신 스크립트 실행 권한 부여
-    chmod +x renew-cert.sh
-    
-    # 매월 1일 새벽 3시에 자동 갱신 설정
-    (crontab -l 2>/dev/null; echo "0 3 1 * * $(pwd)/renew-cert.sh") | crontab -
-    ```
-
-    필요한 경우 수동으로 인증서 갱신:
-    ```bash
-    ./renew-cert.sh
     ```
 
 ## API Documentation
-Swagger UI: `http://localhost:8443/swagger-ui.html`
+Swagger UI: `https://${DOMAIN_NAME}/swagger-ui.html`
