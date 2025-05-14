@@ -7,6 +7,12 @@ http {
         listen 80;
         server_name ${DOMAIN_NAME};
 
+        # 민감한 파일 접근 차단
+        location ~ /\.(env|git|htaccess|config|ini|log|bak|txt)$ {
+            deny all;
+            return 404;
+        }
+
         location / {
             return 301 https://$host$request_uri;
         }
@@ -28,8 +34,13 @@ http {
         ssl_session_cache shared:SSL:50m;
         ssl_session_tickets off;
 
-        # HSTS 설정 (선택사항)
+        # 보안 헤더 설정
         add_header Strict-Transport-Security "max-age=63072000" always;
+        add_header X-Frame-Options "SAMEORIGIN" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-XSS-Protection "1; mode=block" always;
+        add_header Referrer-Policy "strict-origin-same-origin" always;
+        add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';" always;
 
         location / {
             proxy_pass http://app:8080;
