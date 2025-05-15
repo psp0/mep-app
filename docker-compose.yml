@@ -41,7 +41,6 @@ services:
   nginx:
     image: nginx:latest
     ports:
-      - "80:80"
       - "8443:8443"
     volumes:
       - ./nginx/nginx.conf.template:/etc/nginx/nginx.conf.template
